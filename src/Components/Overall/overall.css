@@ -1,0 +1,122 @@
+:root {
+  --PrimaryColor: hsl(26, 93%, 50%);
+  --HoverColor: hsl(26, 90%, 42%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: rgb(330, 12%, 97%);
+  /* --boxShadow: box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334); */
+}
+
+.overall .secContainer .mainContent {
+  gap: 1rem;
+}
+.overall .secContainer .mainContent .singleOverall {
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.189);
+}
+.overall .secContainer .mainContent .singleOverall .icon {
+  font-size: 20px;
+  color: var(--textColor);
+}
+.overall .secContainer .mainContent .singleOverall small {
+  font-weight: 500;
+  color: var(--textColor);
+}
+.overall .secContainer .mainContent .singleOverall .destImage {
+  position: relative;
+  height: 230px;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+}
+.overall .secContainer .mainContent .singleOverall .destImage img {
+  height: 100%;
+  border-radius: 1rem;
+}
+.overall .secContainer .mainContent .singleOverall .destImage .category {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background: var(--PrimaryColor);
+  color: var(--whiteColor);
+  border-radius: 3rem;
+  font-size: 10px;
+  font-weight: 500;
+}
+.overall .secContainer .mainContent .singleOverall .destImage .price {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  padding: 5px 10px;
+  background: var(--greyBg);
+  color: var(--HoverColor);
+  border-radius: 3rem;
+  font-size: 10px;
+  font-weight: 500;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody {
+  padding: 1rem;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .title {
+  justify-content: space-between;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .title h4 {
+  color: var(--blackColor);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .amenities {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 1rem 0;
+  gap: 0.5rem;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .amenities .singleAmenity {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: var(--greyBg);
+  gap: 0.5rem;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .btn {
+  margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  padding: 0.6rem;
+  color: var(--whiteColor);
+  font-weight: 600;
+  gap: 0.5rem;
+}
+.overall .secContainer .mainContent .singleOverall .overallBody .btn .icon {
+  color: var(--whiteColor);
+}
+.overall .secContainer .mainContent .singleOverall .overallBody p {
+  font-size: 13px;
+}
+.overall .secContainer .mainContent .singleOverall:hover {
+  transform: translateY(-7px);
+}
+
+@media screen and (max-width: 490px) {
+  .overall .secContainer .mainContent {
+    display: grid;
+  }
+  .overall .secContainer .mainContent .singleOverall .destImage {
+    display: grid;
+  }
+}
+@media screen and (max-width: 900px) {
+  .overall .secContainer .mainContent .singleOverall .destImage {
+    display: grid;
+  }
+}/*# sourceMappingURL=overall.css.map */
