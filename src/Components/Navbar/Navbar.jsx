@@ -70,11 +70,16 @@ const Navbar = () => {
               </a>
             </li>
 
-            <ReactWhatsapp number="+6288994115992" class="btn" message="Hello">
+            {/* <ReactWhatsapp number="+6288994115992" class="btn" message="Hello">
               <div className="headerBtns flex">
                   <a href="#">Contact Us</a>
               </div>
-            </ReactWhatsapp>
+            </ReactWhatsapp> */}
+            <li className="btn">
+              <div className="headerBtns flex">
+                <a href="/register">Register</a>
+              </div>
+              </li>
           </ul>
 
           <div onClick={removeNav} className="closeNavbar">

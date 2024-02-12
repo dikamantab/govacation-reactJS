@@ -8,6 +8,7 @@ import Overall from './Components/Overall/Overall';
 import About from './Components/About/About';
 import Review from './Components/Review/Review';
 import Footer from './Components/Footer/Footer';
+import Register from './Components/Register/Register'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/categories" element={<Package />} />
           <Route path="/package" element={<Overall />} />
           <Route path="/benefit" element={<About />} />
