@@ -56,7 +56,7 @@ const Review = () => {
                             return(
                                 <div data-aos="fade-up" data-aos-duration="2000" className="singlePost grid">
                                     <div className="imgDiv">
-                                        <img src={postImage} alt={title} />
+                                        <img src={postImage} alt={title} loading='lazy'/>
                                     </div>
 
                                     <div className="postDetails">

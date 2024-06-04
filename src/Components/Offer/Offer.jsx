@@ -67,7 +67,7 @@ const Offer = () => {
                             return(
                                 <div data-aos="fade-up" data-aos-duration="3300" className="singleOffer">
                                     <div className="destImage">
-                                        <img src={imgSrc} alt={destTitle} />
+                                        <img src={imgSrc} alt={destTitle} loading='lazy'/>
                                         <span className="discount">
                                             30% Off
                                         </span>

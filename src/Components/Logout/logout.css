@@ -1,0 +1,70 @@
+.logout-popup {
+          position: absolute;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          background-color: #00000090;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+}
+
+.logout-popup-container {
+          width: max(23vw, 330px);
+          color: #808080;
+          background-color: white;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 25px;
+          padding: 25px 30px;
+          border-radius: 8px;
+          font-size: 14px;
+          animation: fadeIn 0.5s;
+}
+
+.logout-popup-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+}
+
+.logout-popup-header img {
+          width: 16px;
+          cursor: pointer;
+}
+.logout-popup-condition {
+          display: flex;
+          align-items: start;
+          gap: 8px;
+          margin-top: -15px;
+}
+.close-icon {
+          cursor: pointer;
+}
+
+.logout-popup-content {
+          margin-bottom: 20px;
+}
+
+.logout-button,
+.cancel-button {
+          padding: 10px 20px;
+          margin: 10px;
+          cursor: pointer;
+}
+
+.logout-button {
+          background-color: #ff0000;
+          color: white;
+          border: none;
+          border-radius: 5px;
+}
+
+.cancel-button {
+          background-color: #ccc;
+          color: black;
+          border: none;
+          border-radius: 5px;
+}

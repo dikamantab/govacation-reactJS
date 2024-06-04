@@ -31,7 +31,7 @@
 }
 .overall .secContainer .mainContent .singleOverall .destImage {
   position: relative;
-  height: 230px;
+  height: 260px;
   width: 100%;
   border-radius: 1rem;
   overflow: hidden;
@@ -87,8 +87,11 @@
   background: var(--greyBg);
   gap: 0.5rem;
 }
-.overall .secContainer .mainContent .singleOverall .overallBody .btn {
+.overall .secContainer .mainContent .singleOverall .overallBody .btn .quantityBtn span{
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
   width: 100%;
   text-align: center;
   justify-content: center;
@@ -96,6 +99,27 @@
   color: var(--whiteColor);
   font-weight: 600;
   gap: 0.5rem;
+}
+.quantityBtn {
+  display: flex;
+  align-items: center;
+}
+
+.quantityBtn button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.quantityBtn button:hover {
+  background-color: #e0e0e0;
+}
+
+.quantityBtn span {
+  margin: 0 10px;
+  font-size: 16px;
 }
 .overall .secContainer .mainContent .singleOverall .overallBody .btn .icon {
   color: var(--whiteColor);
@@ -107,12 +131,27 @@
   transform: translateY(-7px);
 }
 
+.btnOrderNow {
+  background-color: var(--PrimaryColor);
+  color: var(--whiteColor);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.btnOrderNow:hover {
+  background-color: var(--HoverColor);
+}
+
 @media screen and (max-width: 490px) {
   .overall .secContainer .mainContent {
     display: grid;
   }
   .overall .secContainer .mainContent .singleOverall .destImage {
     display: grid;
+    
   }
 }
 @media screen and (max-width: 900px) {

@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./navbar.css";
 import { GiSurferVan } from "react-icons/gi";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { HiOutlineBars3 } from "react-icons/hi2";
-import ReactWhatsapp from "react-whatsapp";
-
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
 
-const Navbar = () => {
+const Navbar = ({ setShowLogin, setShowLogout }) => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
-  // show navbar
   const [active, setActive] = useState("navBar");
   const showNav = () => {
     setActive("navBar activeNavbar");
   };
-  // remove navbar
   const removeNav = () => {
     setActive("navBar");
   };
-  //bg navbar
+
   const [transparent, setTransparent] = useState("header");
   const addBg = () => {
     if (window.scrollY >= 10) {
@@ -69,17 +67,17 @@ const Navbar = () => {
                 Blog
               </a>
             </li>
-
-            {/* <ReactWhatsapp number="+6288994115992" class="btn" message="Hello">
-              <div className="headerBtns flex">
-                  <a href="#">Contact Us</a>
-              </div>
-            </ReactWhatsapp> */}
             <li className="btn">
               <div className="headerBtns flex">
-                <a href="/register">Register</a>
+                {user ? (
+                  <>
+                    <a onClick={() => setShowLogout(true)} className="navLink">Hai, {user.name}</a>
+                  </>
+                ) : (
+                  <a onClick={() => setShowLogin(true)}>Login</a>
+                )}
               </div>
-              </li>
+            </li>
           </ul>
 
           <div onClick={removeNav} className="closeNavbar">

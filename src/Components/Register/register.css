@@ -1,3 +1,22 @@
+.wrapper {
+          width: 420px;
+          background: transparent;
+          border: 2px solid rgba(255, 255, 255, 5);
+          backdrop-filter: blur(30px);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 2);
+          color: white;
+          border-radius: 10px;
+          padding: 30px 40px;
+          margin: 0 auto;
+          margin-top: 20px;
+          margin-bottom: 20px;
+          margin-left: 20px;
+          margin-right: 20px;
+          max-width: 95%;
+          box-sizing: border-box;
+}
+
+
 .register-container {
           display: flex;
           font: poppins;

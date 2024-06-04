@@ -62,6 +62,7 @@
   }
   .navBarSection .header .navBar .navLists .navItem .navLink:hover {
     color: var(--PrimaryColor);
+    cursor: pointer;
   }
   .navBarSection .header .navBar .navLists .headerBtns {
     flex-direction: column;
@@ -74,6 +75,7 @@
   }
   .navBarSection .header .navBar .navLists .headerBtns .btn a:hover {
     color: var(--whiteColor);
+    cursor: pointer;
   }
   .navBarSection .header .navBar .closeNavbar {
     position: absolute;
