@@ -14,6 +14,7 @@
 .overall .secContainer .mainContent {
   gap: 1rem;
 }
+
 .overall .secContainer .mainContent .singleOverall {
   border-radius: 1rem;
   overflow: hidden;
@@ -21,14 +22,17 @@
   margin: 0.5rem;
   box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.189);
 }
+
 .overall .secContainer .mainContent .singleOverall .icon {
   font-size: 20px;
   color: var(--textColor);
 }
+
 .overall .secContainer .mainContent .singleOverall small {
   font-weight: 500;
   color: var(--textColor);
 }
+
 .overall .secContainer .mainContent .singleOverall .destImage {
   position: relative;
   height: 260px;
@@ -37,10 +41,12 @@
   overflow: hidden;
   display: flex;
 }
+
 .overall .secContainer .mainContent .singleOverall .destImage img {
   height: 100%;
   border-radius: 1rem;
 }
+
 .overall .secContainer .mainContent .singleOverall .destImage .category {
   position: absolute;
   top: 10px;
@@ -52,6 +58,7 @@
   font-size: 10px;
   font-weight: 500;
 }
+
 .overall .secContainer .mainContent .singleOverall .destImage .price {
   position: absolute;
   top: 40px;
@@ -63,17 +70,21 @@
   font-size: 10px;
   font-weight: 500;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody {
   padding: 1rem;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody .title {
   justify-content: space-between;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody .title h4 {
   color: var(--blackColor);
   font-weight: 700;
   font-size: 1.1rem;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody .amenities {
   width: 100%;
   flex-wrap: wrap;
@@ -81,13 +92,15 @@
   padding: 1rem 0;
   gap: 0.5rem;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody .amenities .singleAmenity {
   padding: 5px 10px;
   border-radius: 5px;
   background: var(--greyBg);
   gap: 0.5rem;
 }
-.overall .secContainer .mainContent .singleOverall .overallBody .btn .quantityBtn span{
+
+.overall .secContainer .mainContent .singleOverall .overallBody .btn .quantityBtn span {
   margin-top: 1rem;
   display: flex;
   align-items: center;
@@ -100,6 +113,7 @@
   font-weight: 600;
   gap: 0.5rem;
 }
+
 .quantityBtn {
   display: flex;
   align-items: center;
@@ -121,12 +135,15 @@
   margin: 0 10px;
   font-size: 16px;
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody .btn .icon {
   color: var(--whiteColor);
 }
+
 .overall .secContainer .mainContent .singleOverall .overallBody p {
   font-size: 13px;
 }
+
 .overall .secContainer .mainContent .singleOverall:hover {
   transform: translateY(-7px);
 }
@@ -145,17 +162,24 @@
   background-color: var(--HoverColor);
 }
 
-@media screen and (max-width: 490px) {
-  .overall .secContainer .mainContent {
+@media screen and (max-width: 480px) {
+   .mainContent {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
-  .overall .secContainer .mainContent .singleOverall .destImage {
-    display: grid;
-    
-  }
+
+  /* .overall .secContainer .mainContent .singleOverall .destImage {
+    /* display: grid; */
+
+  /* } */
 }
-@media screen and (max-width: 900px) {
+
+@media screen and (max-width: 1024px) {
   .overall .secContainer .mainContent .singleOverall .destImage {
-    display: grid;
+    /* display: grid; */
+    grid-template-columns: repeat(3, 1fr);
   }
-}/*# sourceMappingURL=overall.css.map */
+
+}
+
+/*# sourceMappingURL=overall.css.map */

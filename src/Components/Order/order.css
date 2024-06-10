@@ -65,3 +65,53 @@ h2 {
 .item-details button:hover {
   background-color: darkred;
 }
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.cart-table th,
+.cart-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.cart-table th {
+  background-color: #f4f4f4;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  color: darkred;
+  background-color: white;
+}
+
+.delete-button:focus {
+  outline: none;
+}
+
+.checkout-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: tomato;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: tomato;
+}
+
+.checkout-button:focus {
+  outline: none;
+}

@@ -8,7 +8,7 @@ import { FaPersonWalking } from "react-icons/fa6";
 import { BsArrowRightShort } from "react-icons/bs";
 import { UserContext } from "../../context/userContext";
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 // --------- image
 import img1 from "../../Assets/paket/outbond.jpg";
 import img2 from "../../Assets/paket/rafting.jpg";
@@ -92,11 +92,14 @@ const semuaPaket = [
     }
 ];
 
+
+
 const Overall = () => {
     const [cart, setCart] = useState([]);
     const [cartQuantity, setCartQuantity] = useState({});
     const { user } = useContext(UserContext);
     const [userToken, setUserToken] = useState("");
+    console.log(cart);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -139,10 +142,11 @@ const Overall = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            alert("Item berhasil ditambahkan ke keranjang");
+            console.log("Response dari server:", response);
+            Swal.fire('Success', 'Item berhasil ditambahkan ke keranjang', 'success');
         } catch (error) {
             console.error("Error:", error);
-            alert("Gagal menambahkan item ke keranjang. Silakan coba lagi.");
+            Swal.fire('Error', 'Gagal menambahkan item ke keranjang', 'error');
             updatedQuantity[item.id] = 0;
             setCartQuantity(updatedQuantity);
         }
@@ -172,10 +176,11 @@ const Overall = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            alert("Item berhasil dihapus dari keranjang");
+            console.log("Response dari server:", response);
+            Swal.fire('Success', 'Item berhasil dihapus dari keranjang', 'success');
         } catch (error) {
             console.error("Error:", error);
-            alert("Gagal menghapus item dari keranjang. Silakan coba lagi.");
+            Swal.fire('Error', 'Gagal menambahkan item ke keranjang', 'error');
         }
     };
     const handleOrderNow = async (item) => {

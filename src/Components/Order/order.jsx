@@ -1,26 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/userContext";
 import axios from "axios";
+import { UserContext } from "../../context/userContext";
+import { FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import "./order.css";
 
 const Order = () => {
   const { user } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
-  const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
     if (user) {
-      setUserToken(user.token);
       fetchCartItems();
     }
   }, [user]);
 
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/keranjang', {
+      const token = localStorage.getItem("token"); // Adjust based on where you store your token
+      const response = await axios.get(`http://127.0.0.1:8000/api/keranjang`, {
         headers: {
-          'Authorization': `Bearer ${user.token}`,
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       setCartItems(response.data);
     } catch (error) {
@@ -28,28 +29,79 @@ const Order = () => {
     }
   };
 
-  const handleOrderNow = async (item) => {
-    if (!user) {
-      alert("Anda harus login terlebih dahulu");
-      return;
-    }
-
+  const deleteCartItem = async (itemId) => {
     try {
-      await axios.post('http://127.0.0.1:8000/api/pesanan', {
-        id_barang: item.id,
-        harga_barang: item.harga_barang,
-        id_user: user.id,
-      }, {
+      const token = localStorage.getItem("token"); // Adjust based on where you store your token
+      await axios.delete(`http://127.0.0.1:8000/api/keranjang/${itemId}`, {
         headers: {
-          'Authorization': `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-      alert("Pemesanan berhasil dilakukan");
-      fetchCartItems(); // Refresh the cart items after placing order
+      setCartItems(cartItems.filter(item => item.id !== itemId));
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Item berhasil dihapus dari keranjang',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     } catch (error) {
-      console.error("Error placing order:", error);
-      alert("Gagal melakukan pemesanan. Silakan coba lagi.");
+      console.error("Error deleting cart item:", error);
+      Swal.fire({
+        title: 'Gagal!',
+        text: 'Item gagal dihapus dari keranjang',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+  const showCheckoutModal = () => {
+    const items = cartItems.map(item => `<p>${item.nama_paket} - ${item.harga_barang}</p>`).join('');
+    const total = cartItems.reduce((sum, item) => sum + item.harga_barang, 0);
+
+    Swal.fire({
+      title: 'Detail Pemesanan',
+      html: `
+        <div>
+          ${items}
+          <hr/>
+          <p><strong>Total: ${total}</strong></p>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Checkout',
+      confirmButtonColor: 'tomato',
+      cancelButtonText: 'Batal',
+      preConfirm: checkoutCart,
+    });
+  };
+
+  const checkoutCart = async () => {
+    try {
+      const token = localStorage.getItem("token"); // Adjust based on where you store your token
+      const promises = cartItems.map(item =>
+        axios.post(`http://127.0.0.1:8000/api/transaksi/${item.id}`, { status: 'pending' }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      );
+      await Promise.all(promises);
+      setCartItems([]);
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Checkout berhasil',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      Swal.fire({
+        title: 'Gagal!',
+        text: 'Checkout gagal',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -59,19 +111,34 @@ const Order = () => {
       {cartItems.length === 0 ? (
         <p>Keranjang Anda kosong</p>
       ) : (
-        <div className="cart-items">
-          {cartItems.map((item) => (
-            <div key={item.id} className="cart-item">
-              <img src={item.imgSrc} alt={item.destTitle} />
-              <div className="item-details">
-                <h4>{item.destTitle}</h4>
-                <p>{item.desc}</p>
-                <p>Harga: {item.price}</p>
-                <button onClick={() => handleOrderNow(item)}>Pesan Sekarang</button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <>
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Nama Paket</th>
+                <th>Harga Barang</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.nama_paket}</td>
+                  <td>{item.harga_barang}</td>
+                  <td>
+                    <button
+                      className="delete-button"
+                      onClick={() => deleteCartItem(item.id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="checkout-button" onClick={showCheckoutModal}>Checkout</button>
+        </>
       )}
     </div>
   );
