@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./overall.css";
-
 import { IoTicketOutline } from "react-icons/io5";
 import { TbBottleFilled } from "react-icons/tb";
 import { MdAirportShuttle } from "react-icons/md";
 import { FaPersonWalking } from "react-icons/fa6";
-import { BsArrowRightShort } from "react-icons/bs";
 import { UserContext } from "../../context/userContext";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 // --------- image
 import img1 from "../../Assets/paket/outbond.jpg";
 import img2 from "../../Assets/paket/rafting.jpg";
@@ -92,14 +91,12 @@ const semuaPaket = [
     }
 ];
 
-
-
 const Overall = () => {
     const [cart, setCart] = useState([]);
     const [cartQuantity, setCartQuantity] = useState({});
     const { user } = useContext(UserContext);
     const [userToken, setUserToken] = useState("");
-    console.log(cart);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -122,7 +119,18 @@ const Overall = () => {
 
         setUserToken(storedToken);
 
-        const updatedCart = [...cart, item];
+        // Update cart and quantity
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+        let updatedCart;
+        if (existingItem) {
+            updatedCart = cart.map(cartItem =>
+                cartItem.id === item.id
+                    ? { ...cartItem, quantity: (cartItem.quantity || 1) + 1 }
+                    : cartItem
+            );
+        } else {
+            updatedCart = [...cart, { ...item, quantity: 1 }];
+        }
         setCart(updatedCart);
 
         const updatedQuantity = { ...cartQuantity };
@@ -133,6 +141,7 @@ const Overall = () => {
             id_user: user.id,
             id_barang: item.id,
             harga_barang: parseInt(item.price.replace(/\D/g, '')),
+            quantity: updatedQuantity[item.id]
         };
 
         try {
@@ -180,9 +189,10 @@ const Overall = () => {
             Swal.fire('Success', 'Item berhasil dihapus dari keranjang', 'success');
         } catch (error) {
             console.error("Error:", error);
-            Swal.fire('Error', 'Gagal menambahkan item ke keranjang', 'error');
+            Swal.fire('Error', 'Gagal menghapus item dari keranjang', 'error');
         }
     };
+
     const handleOrderNow = async (item) => {
         if (!user) {
             alert("Anda harus login terlebih dahulu");
@@ -202,12 +212,14 @@ const Overall = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            alert("Pemesanan berhasil dilakukan");
+            Swal.fire('Success', 'Item berhasil ditambahkan ke keranjang', 'success');
+            navigate('/order'); // Navigate to order page
         } catch (error) {
             console.error("Error:", error);
-            alert("Gagal melakukan pemesanan. Silakan coba lagi.");
+            Swal.fire('Error', 'Gagal menambahkan item ke keranjang', 'error');
         }
     };
+
     return (
         <section className="overall container section">
             <div className="secContainer">
@@ -280,9 +292,9 @@ const Overall = () => {
                                             </div>
 
                                             <div className="quantityBtn">
-                                                <button onClick={() => addToCart(item)}>+</button>
-                                                <span>{cartQuantity[item.id] || 0}</span> {/* Gunakan id paket sebagai kunci untuk cartQuantity */}
-                                                <button onClick={() => removeFromCart(item)}>-</button>
+                                                {/* <button onClick={() => addToCart(item)}>+</button> */}
+                                                {/* <span>{cartQuantity[item.id] || 0}</span> Gunakan id paket sebagai kunci untuk cartQuantity */}
+                                                {/* <button onClick={() => removeFromCart(item)}>-</button> */}
                                             </div>
                                             <button
                                                 onClick={() =>
@@ -303,5 +315,5 @@ const Overall = () => {
         </section>
     );
 };
-export default Overall;
 
+export default Overall;

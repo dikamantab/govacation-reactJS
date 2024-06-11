@@ -8,16 +8,19 @@ import "./order.css";
 const Order = () => {
   const { user } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [paymentImage, setPaymentImage] = useState(null);
 
   useEffect(() => {
     if (user) {
       fetchCartItems();
+      fetchTransactions();
     }
   }, [user]);
 
   const fetchCartItems = async () => {
     try {
-      const token = localStorage.getItem("token"); // Adjust based on where you store your token
+      const token = localStorage.getItem("token");
       const response = await axios.get(`http://127.0.0.1:8000/api/keranjang`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,9 +32,23 @@ const Order = () => {
     }
   };
 
+  const fetchTransactions = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`http://127.0.0.1:8000/api/transaksi`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTransactions(response.data);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
   const deleteCartItem = async (itemId) => {
     try {
-      const token = localStorage.getItem("token"); // Adjust based on where you store your token
+      const token = localStorage.getItem("token");
       await axios.delete(`http://127.0.0.1:8000/api/keranjang/${itemId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -66,27 +83,45 @@ const Order = () => {
           ${items}
           <hr/>
           <p><strong>Total: ${total}</strong></p>
+          <input type="file" id="paymentImage" class="swal2-input" placeholder="Upload Bukti Pembayaran" accept="image/*">
         </div>
       `,
       showCancelButton: true,
       confirmButtonText: 'Checkout',
       confirmButtonColor: 'tomato',
       cancelButtonText: 'Batal',
-      preConfirm: checkoutCart,
+      preConfirm: () => {
+        const fileInput = Swal.getPopup().querySelector('#paymentImage');
+        if (fileInput.files.length === 0) {
+          Swal.showValidationMessage('Anda harus mengunggah bukti pembayaran');
+        } else {
+          setPaymentImage(fileInput.files[0]);
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        checkoutCart();
+      }
     });
   };
 
   const checkoutCart = async () => {
     try {
-      const token = localStorage.getItem("token"); // Adjust based on where you store your token
-      const promises = cartItems.map(item =>
-        axios.post(`http://127.0.0.1:8000/api/transaksi/${item.id}`, { status: 'pending' }, {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("gambar", paymentImage);
+
+      const promises = cartItems.map(item => {
+        formData.append("status", "pending");
+        return axios.post(`http://127.0.0.1:8000/api/transaksi/${item.id}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
           },
-        })
-      );
+        });
+      });
       await Promise.all(promises);
+
       setCartItems([]);
       Swal.fire({
         title: 'Berhasil!',
@@ -94,6 +129,7 @@ const Order = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       });
+      fetchTransactions();
     } catch (error) {
       console.error("Error during checkout:", error);
       Swal.fire({
@@ -108,36 +144,61 @@ const Order = () => {
   return (
     <div className="order-container">
       <h2>Keranjang Belanja Anda</h2>
-      {cartItems.length === 0 ? (
-        <p>Keranjang Anda kosong</p>
-      ) : (
+      {transactions.length > 0 ? (
         <>
           <table className="cart-table">
             <thead>
               <tr>
                 <th>Nama Paket</th>
                 <th>Harga Barang</th>
-                <th>Action</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.nama_paket}</td>
-                  <td>{item.harga_barang}</td>
-                  <td>
-                    <button
-                      className="delete-button"
-                      onClick={() => deleteCartItem(item.id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </td>
+              {transactions.map((transaction) => (
+                <tr key={transaction.id}>
+                  <td>{transaction.nama_paket}</td>
+                  <td>{transaction.harga_barang}</td>
+                  <td>{transaction.status}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button className="checkout-button" onClick={showCheckoutModal}>Checkout</button>
+        </>
+      ) : (
+        <>
+          {cartItems.length === 0 ? (
+            <p>Keranjang Anda kosong</p>
+          ) : (
+            <>
+              <table className="cart-table">
+                <thead>
+                  <tr>
+                    <th>Nama Paket</th>
+                    <th>Harga Barang</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.nama_paket}</td>
+                      <td>{item.harga_barang}</td>
+                      <td>
+                        <button
+                          className="delete-button"
+                          onClick={() => deleteCartItem(item.id)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button className="checkout-button" onClick={showCheckoutModal}>Checkout</button>
+            </>
+          )}
         </>
       )}
     </div>
