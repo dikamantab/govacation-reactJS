@@ -13,6 +13,8 @@ const Login = ({ setShowLogin }) => {
     const [nomor_telepon, setNomorTelepon] = useState("");
     const [alamat, setAlamat] = useState("");
 
+    const role = { role: "user" }
+
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
@@ -21,12 +23,14 @@ const Login = ({ setShowLogin }) => {
                 email,
                 password,
                 nomor_telepon,
-                alamat
+                alamat,
+                role: "user",
             });
             console.log("Response from register:", response);
             if (response.status === 200) {
                 Swal.fire('Success!', 'Registration successful!', 'success');
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('role', response.data.role);
                 localStorage.setItem('user', JSON.stringify({ id: response.data.id, name: response.data.name }));
                 setUser({ id: response.data.id, name: response.data.name, token: response.data.token });
                 window.location.href = "/";

@@ -4,6 +4,7 @@ import { UserContext } from "../../context/userContext";
 import { FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import "./order.css";
+import qrCodeImage from '../../Assets/qrcode.jpg'; // Impor gambar QR code
 
 const Order = () => {
   const { user } = useContext(UserContext);
@@ -83,7 +84,9 @@ const Order = () => {
           ${items}
           <hr/>
           <p><strong>Total: ${total}</strong></p>
-          <input type="file" id="paymentImage" class="swal2-input" placeholder="Upload Bukti Pembayaran" accept="image/*">
+          <p>Silakan scan QR code berikut untuk melakukan pembayaran:</p>
+          <img src="${qrCodeImage}" alt="QR Code Pembayaran" style="max-width: 100%; height: auto;"/>
+          <input type="file" id="paymentImage" class="swal2-input" placeholder="Upload Bukti Pembayaran" accept="image/*" style="max-width: auto; height: auto;">
         </div>
       `,
       showCancelButton: true,

@@ -8,6 +8,7 @@ const Logout = ({ setShowLogout }) => {
 
           const handleLogout = () => {
                     localStorage.removeItem('token');
+                    localStorage.removeItem('role');
                     localStorage.removeItem('user');
                     setUser(null);
                     Swal.fire('Success!', 'Logout successful!', 'success');
